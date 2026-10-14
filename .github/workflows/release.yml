@@ -33,7 +33,7 @@ jobs:
           version="${GITHUB_REF_NAME#v}"
           test "$(uv run python -c 'import cross_lab_ai_validation; print(cross_lab_ai_validation.__version__)')" = "$version"
           grep -q "^appVersion: \"$version\"" deployments/helm/cross-lab-ai-validation/Chart.yaml
-      - uses: docker/login-action@v3
+      - uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

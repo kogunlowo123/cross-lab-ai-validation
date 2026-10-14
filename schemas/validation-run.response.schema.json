@@ -1,0 +1,504 @@
+{
+  "$defs": {
+    "AgreementResult": {
+      "properties": {
+        "comparator": {
+          "title": "Comparator",
+          "type": "string"
+        },
+        "kappa": {
+          "title": "Kappa",
+          "type": "number"
+        },
+        "kappa_lower": {
+          "title": "Kappa Lower",
+          "type": "number"
+        },
+        "kappa_upper": {
+          "title": "Kappa Upper",
+          "type": "number"
+        },
+        "n": {
+          "title": "N",
+          "type": "integer"
+        },
+        "negative_percent_agreement": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "overall_percent_agreement": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "positive_percent_agreement": {
+          "$ref": "#/$defs/Proportion"
+        }
+      },
+      "required": [
+        "n",
+        "comparator",
+        "positive_percent_agreement",
+        "negative_percent_agreement",
+        "overall_percent_agreement",
+        "kappa",
+        "kappa_lower",
+        "kappa_upper"
+      ],
+      "title": "AgreementResult",
+      "type": "object"
+    },
+    "CriterionResult": {
+      "properties": {
+        "comparator": {
+          "enum": [
+            ">=",
+            "<=",
+            "<",
+            "is"
+          ],
+          "title": "Comparator",
+          "type": "string"
+        },
+        "criterion": {
+          "title": "Criterion",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "observed": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "threshold": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Threshold"
+        }
+      },
+      "required": [
+        "criterion",
+        "observed",
+        "threshold",
+        "comparator",
+        "passed",
+        "detail"
+      ],
+      "title": "CriterionResult",
+      "type": "object"
+    },
+    "LinearityLevelResult": {
+      "properties": {
+        "bias_pct": {
+          "title": "Bias Pct",
+          "type": "number"
+        },
+        "expected": {
+          "title": "Expected",
+          "type": "number"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "nonlinearity_pct": {
+          "title": "Nonlinearity Pct",
+          "type": "number"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "expected",
+        "mean",
+        "bias_pct",
+        "nonlinearity_pct",
+        "passed"
+      ],
+      "title": "LinearityLevelResult",
+      "type": "object"
+    },
+    "LinearityResult": {
+      "properties": {
+        "best_fit_degree": {
+          "title": "Best Fit Degree",
+          "type": "integer"
+        },
+        "claimed_high": {
+          "title": "Claimed High",
+          "type": "number"
+        },
+        "claimed_low": {
+          "title": "Claimed Low",
+          "type": "number"
+        },
+        "intercept": {
+          "title": "Intercept",
+          "type": "number"
+        },
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/LinearityLevelResult"
+          },
+          "title": "Levels",
+          "type": "array"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "slope": {
+          "title": "Slope",
+          "type": "number"
+        },
+        "verified_high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Verified High"
+        },
+        "verified_low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Verified Low"
+        }
+      },
+      "required": [
+        "levels",
+        "best_fit_degree",
+        "slope",
+        "intercept",
+        "verified_low",
+        "verified_high",
+        "claimed_low",
+        "claimed_high",
+        "passed"
+      ],
+      "title": "LinearityResult",
+      "type": "object"
+    },
+    "PrecisionLevelResult": {
+      "properties": {
+        "between_day_sd": {
+          "title": "Between Day Sd",
+          "type": "number"
+        },
+        "days": {
+          "title": "Days",
+          "type": "integer"
+        },
+        "material": {
+          "title": "Material",
+          "type": "string"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "repeatability_cv_pct": {
+          "title": "Repeatability Cv Pct",
+          "type": "number"
+        },
+        "repeatability_df": {
+          "title": "Repeatability Df",
+          "type": "integer"
+        },
+        "repeatability_sd": {
+          "title": "Repeatability Sd",
+          "type": "number"
+        },
+        "repeatability_uvl_cv_pct": {
+          "title": "Repeatability Uvl Cv Pct",
+          "type": "number"
+        },
+        "repeatability_verified": {
+          "title": "Repeatability Verified",
+          "type": "boolean"
+        },
+        "replicates_per_day": {
+          "title": "Replicates Per Day",
+          "type": "integer"
+        },
+        "within_lab_cv_pct": {
+          "title": "Within Lab Cv Pct",
+          "type": "number"
+        },
+        "within_lab_df": {
+          "title": "Within Lab Df",
+          "type": "number"
+        },
+        "within_lab_sd": {
+          "title": "Within Lab Sd",
+          "type": "number"
+        },
+        "within_lab_uvl_cv_pct": {
+          "title": "Within Lab Uvl Cv Pct",
+          "type": "number"
+        },
+        "within_lab_verified": {
+          "title": "Within Lab Verified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "material",
+        "days",
+        "replicates_per_day",
+        "mean",
+        "repeatability_sd",
+        "repeatability_cv_pct",
+        "between_day_sd",
+        "within_lab_sd",
+        "within_lab_cv_pct",
+        "repeatability_df",
+        "within_lab_df",
+        "repeatability_uvl_cv_pct",
+        "within_lab_uvl_cv_pct",
+        "repeatability_verified",
+        "within_lab_verified"
+      ],
+      "title": "PrecisionLevelResult",
+      "type": "object"
+    },
+    "PrecisionResult": {
+      "properties": {
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/PrecisionLevelResult"
+          },
+          "title": "Levels",
+          "type": "array"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "levels",
+        "passed"
+      ],
+      "title": "PrecisionResult",
+      "type": "object"
+    },
+    "Proportion": {
+      "description": "A binomial proportion with its Wilson score interval.",
+      "properties": {
+        "denominator": {
+          "title": "Denominator",
+          "type": "integer"
+        },
+        "estimate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Estimate"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Lower"
+        },
+        "numerator": {
+          "title": "Numerator",
+          "type": "integer"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Upper"
+        }
+      },
+      "required": [
+        "estimate",
+        "lower",
+        "upper",
+        "numerator",
+        "denominator"
+      ],
+      "title": "Proportion",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/validation-run.response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "agreement": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgreementResult"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "benchmark_digest": {
+      "title": "Benchmark Digest",
+      "type": "string"
+    },
+    "benchmark_id": {
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "created_by": {
+      "title": "Created By",
+      "type": "string"
+    },
+    "criteria": {
+      "items": {
+        "$ref": "#/$defs/CriterionResult"
+      },
+      "title": "Criteria",
+      "type": "array"
+    },
+    "evidence_digest": {
+      "default": "",
+      "title": "Evidence Digest",
+      "type": "string"
+    },
+    "kind": {
+      "const": "validation",
+      "default": "validation",
+      "title": "Kind",
+      "type": "string"
+    },
+    "model_id": {
+      "title": "Model Id",
+      "type": "string"
+    },
+    "precision": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PrecisionResult"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "protocol_digest": {
+      "title": "Protocol Digest",
+      "type": "string"
+    },
+    "protocol_name": {
+      "title": "Protocol Name",
+      "type": "string"
+    },
+    "protocol_version": {
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "report_id": {
+      "title": "Report Id",
+      "type": "string"
+    },
+    "reportable_range": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LinearityResult"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shift_digest": {
+      "title": "Shift Digest",
+      "type": "string"
+    },
+    "shift_id": {
+      "title": "Shift Id",
+      "type": "string"
+    },
+    "site_id": {
+      "title": "Site Id",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "fail"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "report_id",
+    "site_id",
+    "model_id",
+    "version",
+    "created_at",
+    "created_by",
+    "protocol_name",
+    "protocol_version",
+    "protocol_digest",
+    "benchmark_id",
+    "benchmark_digest",
+    "shift_id",
+    "shift_digest",
+    "agreement",
+    "precision",
+    "reportable_range",
+    "criteria",
+    "verdict"
+  ],
+  "title": "ValidationRun",
+  "type": "object"
+}

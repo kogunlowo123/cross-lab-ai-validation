@@ -1,0 +1,53 @@
+{
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/population-aggregate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Unlabeled population statistics used for shift detection.",
+  "properties": {
+    "categorical": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "type": "object"
+      },
+      "maxProperties": 200,
+      "title": "Categorical",
+      "type": "object"
+    },
+    "continuous": {
+      "additionalProperties": {
+        "items": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "type": "array"
+      },
+      "maxProperties": 200,
+      "title": "Continuous",
+      "type": "object"
+    },
+    "n": {
+      "minimum": 1,
+      "title": "N",
+      "type": "integer"
+    },
+    "score_counts": {
+      "items": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "maxItems": 1000,
+      "minItems": 2,
+      "title": "Score Counts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "n",
+    "score_counts"
+  ],
+  "title": "PopulationAggregate",
+  "type": "object"
+}

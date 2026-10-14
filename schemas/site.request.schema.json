@@ -1,0 +1,56 @@
+{
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/site.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A laboratory where a model is (or will be) used.",
+  "properties": {
+    "accreditation": {
+      "default": "CAP",
+      "enum": [
+        "CAP",
+        "COLA",
+        "TJC",
+        "A2LA",
+        "none"
+      ],
+      "title": "Accreditation",
+      "type": "string"
+    },
+    "clia_number": {
+      "description": "CLIA certificate number, 10 characters (NNDNNNNNNN)",
+      "title": "Clia Number",
+      "type": "string"
+    },
+    "medical_director": {
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Medical Director",
+      "type": "string"
+    },
+    "name": {
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Name",
+      "type": "string"
+    },
+    "region": {
+      "maxLength": 64,
+      "minLength": 2,
+      "title": "Region",
+      "type": "string"
+    },
+    "site_id": {
+      "title": "Site Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "site_id",
+    "name",
+    "clia_number",
+    "medical_director",
+    "region"
+  ],
+  "title": "Site",
+  "type": "object"
+}

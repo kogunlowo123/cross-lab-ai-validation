@@ -1,0 +1,25 @@
+{{- $c := .Values.clv -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "clv.fullname" . }}
+  labels: {{- include "clv.labels" . | nindent 4 }}
+data:
+  CLV_ENVIRONMENT: {{ $c.environment | quote }}
+  CLV_PUBLIC_URL: {{ required "clv.publicUrl is required" $c.publicUrl | quote }}
+  CLV_OIDC_ISSUER: {{ required "clv.oidc.issuer is required" $c.oidc.issuer | quote }}
+  CLV_OIDC_AUDIENCE: {{ required "clv.oidc.audience is required" $c.oidc.audience | quote }}
+  CLV_OIDC_JWKS_URL: {{ required "clv.oidc.jwksUrl is required" $c.oidc.jwksUrl | quote }}
+  CLV_ROLES_CLAIM: {{ $c.oidc.rolesClaim | quote }}
+  CLV_SITES_CLAIM: {{ $c.oidc.sitesClaim | quote }}
+  CLV_IDENTITY_FABRIC_URL: {{ required "clv.identityFabricUrl is required" $c.identityFabricUrl | quote }}
+  CLV_AUDIT_KEY_FILE: {{ printf "/etc/cross-lab-ai-validation/audit-key/%s" (required "secrets.auditKeyFile is required" .Values.secrets.auditKeyFile) | quote }}
+  CLV_SIGNATURE_MAX_AUTH_AGE_SECONDS: {{ $c.signatureMaxAuthAgeSeconds | quote }}
+  CLV_MIN_AGGREGATE_CASES: {{ $c.minAggregateCases | quote }}
+  {{- with $c.mcpAllowedHosts }}
+  CLV_MCP_ALLOWED_HOSTS: {{ . | toJson | quote }}
+  {{- end }}
+  CLV_LOG_LEVEL: {{ $c.logLevel | quote }}
+  {{- with $c.otlpEndpoint }}
+  CLV_OTLP_ENDPOINT: {{ . | quote }}
+  {{- end }}

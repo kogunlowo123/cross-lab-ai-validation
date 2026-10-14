@@ -1,0 +1,17 @@
+# Values used by CI to render and schema-validate the chart (helm lint,
+# helm template | kubeconform). They describe a complete, valid deployment.
+clv:
+  publicUrl: https://assurance.lab.ci.internal
+  oidc:
+    issuer: https://login.ci.internal
+    audience: cross-lab-ai-validation
+    jwksUrl: https://login.ci.internal/jwks
+  identityFabricUrl: https://identity.agents.ci.internal
+secrets:
+  auditKeyFile: audit-2026-10.pem
+ingress:
+  enabled: true
+  className: nginx
+  host: assurance.lab.ci.internal
+serviceMonitor:
+  enabled: true

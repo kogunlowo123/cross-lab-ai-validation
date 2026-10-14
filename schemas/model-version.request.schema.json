@@ -1,0 +1,661 @@
+{
+  "$defs": {
+    "AgreementCriteria": {
+      "additionalProperties": false,
+      "properties": {
+        "kappa_min": {
+          "maximum": 1.0,
+          "minimum": -1.0,
+          "title": "Kappa Min",
+          "type": "number"
+        },
+        "npa_min": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Npa Min",
+          "type": "number"
+        },
+        "ppa_min": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Ppa Min",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ppa_min",
+        "npa_min",
+        "kappa_min"
+      ],
+      "title": "AgreementCriteria",
+      "type": "object"
+    },
+    "CategoricalFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "minItems": 2,
+          "title": "Categories",
+          "type": "array"
+        },
+        "kind": {
+          "const": "categorical",
+          "default": "categorical",
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "categories"
+      ],
+      "title": "CategoricalFeature",
+      "type": "object"
+    },
+    "ContinuousFeature": {
+      "additionalProperties": false,
+      "properties": {
+        "edges": {
+          "description": "Interior bin edges; bins are (-inf,e0), [e0,e1), ..., [e_last,+inf)",
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "title": "Edges",
+          "type": "array"
+        },
+        "kind": {
+          "const": "continuous",
+          "default": "continuous",
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unit": {
+          "maxLength": 32,
+          "minLength": 1,
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "unit",
+        "edges"
+      ],
+      "title": "ContinuousFeature",
+      "type": "object"
+    },
+    "PerformanceAggregate": {
+      "additionalProperties": false,
+      "description": "Labeled outcome statistics for one site and one model version.",
+      "properties": {
+        "overall": {
+          "$ref": "#/$defs/ScoreHistogram"
+        },
+        "subgroups": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ScoreHistogram"
+          },
+          "description": "Keyed '<attribute>=<value>', e.g. 'sex=F'; attributes come from the model",
+          "maxProperties": 200,
+          "title": "Subgroups",
+          "type": "object"
+        }
+      },
+      "required": [
+        "overall"
+      ],
+      "title": "PerformanceAggregate",
+      "type": "object"
+    },
+    "PopulationAggregate": {
+      "additionalProperties": false,
+      "description": "Unlabeled population statistics used for shift detection.",
+      "properties": {
+        "categorical": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "object"
+          },
+          "maxProperties": 200,
+          "title": "Categorical",
+          "type": "object"
+        },
+        "continuous": {
+          "additionalProperties": {
+            "items": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "maxProperties": 200,
+          "title": "Continuous",
+          "type": "object"
+        },
+        "n": {
+          "minimum": 1,
+          "title": "N",
+          "type": "integer"
+        },
+        "score_counts": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Score Counts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "n",
+        "score_counts"
+      ],
+      "title": "PopulationAggregate",
+      "type": "object"
+    },
+    "PrecisionCriteria": {
+      "additionalProperties": false,
+      "properties": {
+        "alpha": {
+          "default": 0.05,
+          "exclusiveMaximum": 0.5,
+          "exclusiveMinimum": 0,
+          "title": "Alpha",
+          "type": "number"
+        },
+        "repeatability_cv_pct": {
+          "description": "Claimed repeatability CV",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "title": "Repeatability Cv Pct",
+          "type": "number"
+        },
+        "within_lab_cv_pct": {
+          "description": "Claimed within-laboratory CV",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "title": "Within Lab Cv Pct",
+          "type": "number"
+        }
+      },
+      "required": [
+        "repeatability_cv_pct",
+        "within_lab_cv_pct"
+      ],
+      "title": "PrecisionCriteria",
+      "type": "object"
+    },
+    "ReferenceProfile": {
+      "additionalProperties": false,
+      "description": "Aggregates from the development / pivotal validation population.",
+      "properties": {
+        "performance": {
+          "$ref": "#/$defs/PerformanceAggregate"
+        },
+        "population": {
+          "$ref": "#/$defs/PopulationAggregate"
+        },
+        "source": {
+          "description": "Where the reference came from",
+          "maxLength": 200,
+          "minLength": 3,
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "performance",
+        "population"
+      ],
+      "title": "ReferenceProfile",
+      "type": "object"
+    },
+    "ReportableRangeCriteria": {
+      "additionalProperties": false,
+      "properties": {
+        "allowable_bias_pct": {
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "title": "Allowable Bias Pct",
+          "type": "number"
+        },
+        "allowable_nonlinearity_pct": {
+          "exclusiveMinimum": 0,
+          "maximum": 50,
+          "title": "Allowable Nonlinearity Pct",
+          "type": "number"
+        },
+        "claimed_high": {
+          "title": "Claimed High",
+          "type": "number"
+        },
+        "claimed_low": {
+          "title": "Claimed Low",
+          "type": "number"
+        }
+      },
+      "required": [
+        "claimed_low",
+        "claimed_high",
+        "allowable_nonlinearity_pct",
+        "allowable_bias_pct"
+      ],
+      "title": "ReportableRangeCriteria",
+      "type": "object"
+    },
+    "ScoreHistogram": {
+      "additionalProperties": false,
+      "properties": {
+        "negative_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negative Score Sum",
+          "type": "array"
+        },
+        "negatives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negatives",
+          "type": "array"
+        },
+        "positive_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positive Score Sum",
+          "type": "array"
+        },
+        "positives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positives",
+          "type": "array"
+        },
+        "score_sq_sum": {
+          "minimum": 0,
+          "title": "Score Sq Sum",
+          "type": "number"
+        }
+      },
+      "required": [
+        "positives",
+        "negatives",
+        "positive_score_sum",
+        "negative_score_sum",
+        "score_sq_sum"
+      ],
+      "title": "ScoreHistogram",
+      "type": "object"
+    },
+    "ValidationProtocol": {
+      "additionalProperties": false,
+      "description": "Acceptance criteria a site must meet before a medical director may approve use.",
+      "properties": {
+        "agreement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AgreementCriteria"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "auroc_lower_ci_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Auroc Lower Ci Min"
+        },
+        "bootstrap_iterations": {
+          "default": 2000,
+          "maximum": 20000,
+          "minimum": 200,
+          "title": "Bootstrap Iterations",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 0.95,
+          "maximum": 0.999,
+          "minimum": 0.8,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "ece_max": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ece Max"
+        },
+        "min_cases": {
+          "default": 200,
+          "minimum": 20,
+          "title": "Min Cases",
+          "type": "integer"
+        },
+        "min_positives": {
+          "default": 40,
+          "minimum": 5,
+          "title": "Min Positives",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 120,
+          "minLength": 3,
+          "title": "Name",
+          "type": "string"
+        },
+        "npv_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Npv Min"
+        },
+        "ppv_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ppv Min"
+        },
+        "precision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionCriteria"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "prevalence_shift_max": {
+          "default": 0.1,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Prevalence Shift Max",
+          "type": "number"
+        },
+        "psi_major": {
+          "default": 0.25,
+          "exclusiveMinimum": 0,
+          "title": "Psi Major",
+          "type": "number"
+        },
+        "psi_moderate": {
+          "default": 0.1,
+          "exclusiveMinimum": 0,
+          "title": "Psi Moderate",
+          "type": "number"
+        },
+        "reportable_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ReportableRangeCriteria"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "revalidation_interval_days": {
+          "default": 365,
+          "maximum": 1095,
+          "minimum": 30,
+          "title": "Revalidation Interval Days",
+          "type": "integer"
+        },
+        "sensitivity_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sensitivity Min"
+        },
+        "shift_alpha": {
+          "default": 0.05,
+          "exclusiveMaximum": 0.5,
+          "exclusiveMinimum": 0,
+          "title": "Shift Alpha",
+          "type": "number"
+        },
+        "specificity_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Specificity Min"
+        },
+        "subgroup_auroc_gap_max": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subgroup Auroc Gap Max"
+        },
+        "subgroup_min_cases": {
+          "default": 50,
+          "minimum": 10,
+          "title": "Subgroup Min Cases",
+          "type": "integer"
+        },
+        "subgroup_sensitivity_min": {
+          "anyOf": [
+            {
+              "maximum": 1.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subgroup Sensitivity Min"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "title": "ValidationProtocol",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/model-version.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "An immutable, versioned AI model that sites validate before clinical use.",
+  "properties": {
+    "artifact_digest": {
+      "description": "sha256 of the deployed model artifact",
+      "title": "Artifact Digest",
+      "type": "string"
+    },
+    "decision_threshold": {
+      "exclusiveMaximum": 1.0,
+      "exclusiveMinimum": 0.0,
+      "title": "Decision Threshold",
+      "type": "number"
+    },
+    "display_name": {
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Display Name",
+      "type": "string"
+    },
+    "features": {
+      "default": [],
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "categorical": "#/$defs/CategoricalFeature",
+            "continuous": "#/$defs/ContinuousFeature"
+          },
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/ContinuousFeature"
+          },
+          {
+            "$ref": "#/$defs/CategoricalFeature"
+          }
+        ]
+      },
+      "maxItems": 200,
+      "title": "Features",
+      "type": "array"
+    },
+    "intended_use": {
+      "maxLength": 4000,
+      "minLength": 20,
+      "title": "Intended Use",
+      "type": "string"
+    },
+    "manufacturer": {
+      "maxLength": 200,
+      "minLength": 2,
+      "title": "Manufacturer",
+      "type": "string"
+    },
+    "model_id": {
+      "title": "Model Id",
+      "type": "string"
+    },
+    "protocol": {
+      "$ref": "#/$defs/ValidationProtocol"
+    },
+    "reference": {
+      "$ref": "#/$defs/ReferenceProfile"
+    },
+    "score_edges": {
+      "description": "Probability score bin edges from 0.0 to 1.0, strictly increasing",
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 1001,
+      "minItems": 3,
+      "title": "Score Edges",
+      "type": "array"
+    },
+    "subgroup_attributes": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Subgroup Attributes",
+      "type": "array"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "model_id",
+    "version",
+    "display_name",
+    "intended_use",
+    "manufacturer",
+    "artifact_digest",
+    "score_edges",
+    "decision_threshold",
+    "protocol",
+    "reference"
+  ],
+  "title": "ModelVersion",
+  "type": "object"
+}

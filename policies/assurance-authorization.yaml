@@ -1,0 +1,108 @@
+# Authorization policy for the Clinical Laboratory AI Assurance Platform.
+# Combining: deny overrides, then require_approval, then allow; default deny.
+#
+# Subject attributes (computed per request from the verified caller):
+#   kind                  user | agent
+#   roles                 enterprise IdP roles (users)
+#   scopes                identity-fabric credential scopes (agents)
+#   action_in_scope       true when an agent scope matches the action
+#   site_in_scope         true when the caller covers the site (sites claim or
+#                         site:access:<site> scope); true for registry actions
+#   fresh_authentication  user authenticated within the signature window
+#   delegated             agent credential carries a delegation chain
+# Resource: type site-model | registry, classification 2 (CONFIDENTIAL).
+name: assurance-authorization
+version: "2026.10.0"
+rules:
+  - id: deny-agent-signature
+    description: Agents never sign approvals; signing is a human medical-director act.
+    effect: deny
+    actions: ["reapproval:sign"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: agent}
+
+  - id: deny-agent-registry-writes
+    description: Sites and model versions are registered by people, not agents.
+    effect: deny
+    actions: ["site:register", "model:register"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: agent}
+
+  - id: deny-outside-site
+    description: Callers act only on sites they are responsible for.
+    effect: deny
+    actions: ["benchmark:run", "shift:analyze", "validation:run", "reapproval:request",
+              "reapproval:sign", "report:read", "approval:restrict"]
+    conditions:
+      - {attribute: subject.site_in_scope, operator: eq, value: false}
+
+  - id: deny-stale-signature-authentication
+    description: 21 CFR 11.200 - a signature requires authentication within the signing window.
+    effect: deny
+    actions: ["reapproval:sign"]
+    conditions:
+      - {attribute: subject.fresh_authentication, operator: eq, value: false}
+
+  - id: deny-delegated-reapproval-request
+    description: Reapproval requests are made by the accountable agent, not through delegation.
+    effect: deny
+    actions: ["reapproval:request"]
+    conditions:
+      - {attribute: subject.delegated, operator: eq, value: true}
+
+  - id: approval-grant-needs-medical-director
+    description: Clinical use of a model version at a site always needs medical-director sign-off.
+    effect: require_approval
+    actions: ["approval:grant"]
+
+  - id: allow-medical-director-signature
+    description: Medical directors sign reapprovals for their own sites.
+    effect: allow
+    actions: ["reapproval:sign"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: user}
+      - {attribute: subject.roles, operator: contains, value: medical-director}
+
+  - id: allow-registrar
+    description: Model registrars maintain the site and model registry.
+    effect: allow
+    actions: ["site:register", "model:register"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: user}
+      - {attribute: subject.roles, operator: contains, value: model-registrar}
+
+  - id: allow-laboratory-staff-assurance
+    description: Validation scientists and medical directors run assurance workflows.
+    effect: allow
+    actions: ["benchmark:run", "shift:analyze", "validation:run", "reapproval:request"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: user}
+      - {attribute: subject.roles, operator: contains_any,
+         value: [lab-validation-scientist, medical-director]}
+
+  - id: allow-scoped-agents
+    description: Agents may run assurance workflows and read results their credential scopes allow.
+    effect: allow
+    actions: ["benchmark:run", "shift:analyze", "validation:run", "reapproval:request",
+              "registry:read", "report:read"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: agent}
+      - {attribute: subject.action_in_scope, operator: eq, value: true}
+
+  - id: allow-staff-read
+    description: Laboratory and governance staff may read the registry and reports.
+    effect: allow
+    actions: ["registry:read", "report:read"]
+    conditions:
+      - {attribute: subject.kind, operator: eq, value: user}
+      - {attribute: subject.roles, operator: contains_any,
+         value: [model-registrar, lab-validation-scientist, medical-director, assurance-auditor]}
+
+  - id: allow-fail-safe-restriction
+    description: >-
+      A major population shift withdraws permission to use the model until it is
+      revalidated. Restricting use is fail-safe, so it runs without approval.
+    effect: allow
+    actions: ["approval:restrict"]
+    conditions:
+      - {attribute: environment.shift_severity, operator: eq, value: major}

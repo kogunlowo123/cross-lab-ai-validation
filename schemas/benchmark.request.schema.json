@@ -1,0 +1,118 @@
+{
+  "$defs": {
+    "PerformanceAggregate": {
+      "additionalProperties": false,
+      "description": "Labeled outcome statistics for one site and one model version.",
+      "properties": {
+        "overall": {
+          "$ref": "#/$defs/ScoreHistogram"
+        },
+        "subgroups": {
+          "additionalProperties": {
+            "$ref": "#/$defs/ScoreHistogram"
+          },
+          "description": "Keyed '<attribute>=<value>', e.g. 'sex=F'; attributes come from the model",
+          "maxProperties": 200,
+          "title": "Subgroups",
+          "type": "object"
+        }
+      },
+      "required": [
+        "overall"
+      ],
+      "title": "PerformanceAggregate",
+      "type": "object"
+    },
+    "ScoreHistogram": {
+      "additionalProperties": false,
+      "properties": {
+        "negative_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negative Score Sum",
+          "type": "array"
+        },
+        "negatives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negatives",
+          "type": "array"
+        },
+        "positive_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positive Score Sum",
+          "type": "array"
+        },
+        "positives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positives",
+          "type": "array"
+        },
+        "score_sq_sum": {
+          "minimum": 0,
+          "title": "Score Sq Sum",
+          "type": "number"
+        }
+      },
+      "required": [
+        "positives",
+        "negatives",
+        "positive_score_sum",
+        "negative_score_sum",
+        "score_sq_sum"
+      ],
+      "title": "ScoreHistogram",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/benchmark.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aggregate": {
+      "$ref": "#/$defs/PerformanceAggregate"
+    },
+    "model_id": {
+      "maxLength": 64,
+      "minLength": 3,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "site_id": {
+      "maxLength": 64,
+      "minLength": 3,
+      "title": "Site Id",
+      "type": "string"
+    },
+    "version": {
+      "maxLength": 32,
+      "minLength": 5,
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "site_id",
+    "model_id",
+    "version",
+    "aggregate"
+  ],
+  "title": "BenchmarkCommand",
+  "type": "object"
+}

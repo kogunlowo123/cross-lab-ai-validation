@@ -1,0 +1,84 @@
+# PrometheusRule-compatible alert rules. Load with the Prometheus Operator
+# (wrap in a PrometheusRule) or a rule_files entry.
+# SLOs (docs/architecture/agent-specification.md):
+#   availability  99.9% of API requests succeed (non-5xx) over 30 days
+#   latency       p95 /v1/benchmarks and /v1/shift-analyses < 1 s
+groups:
+  - name: cross-lab-ai-validation.slo
+    rules:
+      - record: clv:request_errors:ratio_5m
+        expr: |
+          sum(rate(clv_http_request_duration_seconds_count{status=~"5.."}[5m]))
+          /
+          clamp_min(sum(rate(clv_http_request_duration_seconds_count[5m])), 1e-9)
+
+      - alert: ClvErrorBudgetBurnFast
+        expr: clv:request_errors:ratio_5m > (14.4 * 0.001)
+        for: 5m
+        labels: {severity: page}
+        annotations:
+          summary: Assurance platform burning its error budget 14x faster than sustainable
+          runbook: docs/runbooks/incident-response.md#elevated-5xx
+
+      - alert: ClvEvaluationLatencyHigh
+        expr: |
+          histogram_quantile(0.95, sum by (le, route) (
+            rate(clv_http_request_duration_seconds_bucket{route=~"/v1/benchmarks|/v1/shift-analyses|/v1/validations"}[10m])
+          )) > 1
+        for: 15m
+        labels: {severity: ticket}
+        annotations:
+          summary: p95 evaluation latency above 1 s
+          runbook: docs/runbooks/monitoring.md#latency
+
+  - name: cross-lab-ai-validation.assurance
+    rules:
+      - alert: ClvMajorPopulationShift
+        expr: increase(clv_shift_analyses_total{severity="major"}[1h]) > 0
+        labels: {severity: page}
+        annotations:
+          summary: A site population shifted beyond the protocol's major PSI threshold
+          runbook: docs/runbooks/shift-response.md
+
+      - alert: ClvApprovalWithdrawn
+        expr: increase(clv_approvals_restricted_total[1h]) > 0
+        labels: {severity: page}
+        annotations:
+          summary: Clinical use of a model version was withdrawn at a site pending revalidation
+          runbook: docs/runbooks/shift-response.md#approval-withdrawn
+
+      - alert: ClvValidationFailures
+        expr: increase(clv_evaluations_total{kind="validation",outcome="fail"}[24h]) > 3
+        labels: {severity: ticket}
+        annotations:
+          summary: Repeated failed site validations; review protocol fit or site readiness
+          runbook: docs/runbooks/monitoring.md#validation-failures
+
+  - name: cross-lab-ai-validation.security
+    rules:
+      - alert: ClvAuthorizationDenialSpike
+        expr: sum(rate(clv_authorization_denials_total[10m])) > 0.2
+        for: 10m
+        labels: {severity: ticket}
+        annotations:
+          summary: Sustained policy denials; possible misconfigured agent or probing
+          runbook: docs/runbooks/incident-response.md#denial-spike
+
+      - alert: ClvAgentProtocolErrors
+        expr: |
+          sum(rate(clv_agent_protocol_calls_total{outcome!="success"}[10m]))
+          /
+          clamp_min(sum(rate(clv_agent_protocol_calls_total[10m])), 1e-9) > 0.25
+        for: 15m
+        labels: {severity: ticket}
+        annotations:
+          summary: More than 25% of MCP/A2A invocations fail
+          runbook: docs/runbooks/incident-response.md#agent-protocol-errors
+
+      - alert: ClvNotReady
+        expr: sum(up{job="cross-lab-ai-validation"}) < 2
+        for: 5m
+        labels: {severity: page}
+        annotations:
+          summary: Fewer than two replicas are being scraped
+          runbook: docs/runbooks/incident-response.md#replicas-down

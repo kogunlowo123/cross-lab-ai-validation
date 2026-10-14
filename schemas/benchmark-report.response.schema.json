@@ -1,0 +1,408 @@
+{
+  "$defs": {
+    "BootstrapInterval": {
+      "properties": {
+        "confidence": {
+          "title": "Confidence",
+          "type": "number"
+        },
+        "estimate": {
+          "title": "Estimate",
+          "type": "number"
+        },
+        "iterations": {
+          "title": "Iterations",
+          "type": "integer"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "method": {
+          "default": "stratified percentile bootstrap",
+          "title": "Method",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        }
+      },
+      "required": [
+        "estimate",
+        "lower",
+        "upper",
+        "confidence",
+        "iterations",
+        "seed"
+      ],
+      "title": "BootstrapInterval",
+      "type": "object"
+    },
+    "Calibration": {
+      "properties": {
+        "bins": {
+          "items": {
+            "$ref": "#/$defs/CalibrationBin"
+          },
+          "title": "Bins",
+          "type": "array"
+        },
+        "brier": {
+          "title": "Brier",
+          "type": "number"
+        },
+        "ece": {
+          "title": "Ece",
+          "type": "number"
+        },
+        "mce": {
+          "title": "Mce",
+          "type": "number"
+        }
+      },
+      "required": [
+        "ece",
+        "mce",
+        "brier",
+        "bins"
+      ],
+      "title": "Calibration",
+      "type": "object"
+    },
+    "CalibrationBin": {
+      "properties": {
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "mean_score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mean Score"
+        },
+        "n": {
+          "title": "N",
+          "type": "integer"
+        },
+        "observed_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Rate"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        }
+      },
+      "required": [
+        "lower",
+        "upper",
+        "n",
+        "mean_score",
+        "observed_rate"
+      ],
+      "title": "CalibrationBin",
+      "type": "object"
+    },
+    "ConfusionCounts": {
+      "properties": {
+        "false_negative": {
+          "title": "False Negative",
+          "type": "integer"
+        },
+        "false_positive": {
+          "title": "False Positive",
+          "type": "integer"
+        },
+        "true_negative": {
+          "title": "True Negative",
+          "type": "integer"
+        },
+        "true_positive": {
+          "title": "True Positive",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "true_positive",
+        "false_positive",
+        "false_negative",
+        "true_negative"
+      ],
+      "title": "ConfusionCounts",
+      "type": "object"
+    },
+    "DiagnosticMetrics": {
+      "properties": {
+        "accuracy": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "counts": {
+          "$ref": "#/$defs/ConfusionCounts"
+        },
+        "npv": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "ppv": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "prevalence": {
+          "title": "Prevalence",
+          "type": "number"
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "specificity": {
+          "$ref": "#/$defs/Proportion"
+        }
+      },
+      "required": [
+        "counts",
+        "sensitivity",
+        "specificity",
+        "ppv",
+        "npv",
+        "accuracy",
+        "prevalence"
+      ],
+      "title": "DiagnosticMetrics",
+      "type": "object"
+    },
+    "Proportion": {
+      "description": "A binomial proportion with its Wilson score interval.",
+      "properties": {
+        "denominator": {
+          "title": "Denominator",
+          "type": "integer"
+        },
+        "estimate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Estimate"
+        },
+        "lower": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Lower"
+        },
+        "numerator": {
+          "title": "Numerator",
+          "type": "integer"
+        },
+        "upper": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Upper"
+        }
+      },
+      "required": [
+        "estimate",
+        "lower",
+        "upper",
+        "numerator",
+        "denominator"
+      ],
+      "title": "Proportion",
+      "type": "object"
+    },
+    "SubgroupPerformance": {
+      "properties": {
+        "auroc": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auroc"
+        },
+        "auroc_gap": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auroc Gap"
+        },
+        "key": {
+          "title": "Key",
+          "type": "string"
+        },
+        "n": {
+          "title": "N",
+          "type": "integer"
+        },
+        "positives": {
+          "title": "Positives",
+          "type": "integer"
+        },
+        "reportable": {
+          "title": "Reportable",
+          "type": "boolean"
+        },
+        "sensitivity": {
+          "$ref": "#/$defs/Proportion"
+        },
+        "specificity": {
+          "$ref": "#/$defs/Proportion"
+        }
+      },
+      "required": [
+        "key",
+        "n",
+        "positives",
+        "reportable",
+        "sensitivity",
+        "specificity",
+        "auroc",
+        "auroc_gap"
+      ],
+      "title": "SubgroupPerformance",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/benchmark-report.response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "aggregate_digest": {
+      "title": "Aggregate Digest",
+      "type": "string"
+    },
+    "auroc": {
+      "$ref": "#/$defs/BootstrapInterval"
+    },
+    "calibration": {
+      "$ref": "#/$defs/Calibration"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "created_by": {
+      "title": "Created By",
+      "type": "string"
+    },
+    "kind": {
+      "const": "benchmark",
+      "default": "benchmark",
+      "title": "Kind",
+      "type": "string"
+    },
+    "metrics": {
+      "$ref": "#/$defs/DiagnosticMetrics"
+    },
+    "model_id": {
+      "title": "Model Id",
+      "type": "string"
+    },
+    "n": {
+      "title": "N",
+      "type": "integer"
+    },
+    "positives": {
+      "title": "Positives",
+      "type": "integer"
+    },
+    "protocol_digest": {
+      "title": "Protocol Digest",
+      "type": "string"
+    },
+    "reference_auroc": {
+      "title": "Reference Auroc",
+      "type": "number"
+    },
+    "report_id": {
+      "title": "Report Id",
+      "type": "string"
+    },
+    "site_id": {
+      "title": "Site Id",
+      "type": "string"
+    },
+    "subgroups": {
+      "items": {
+        "$ref": "#/$defs/SubgroupPerformance"
+      },
+      "title": "Subgroups",
+      "type": "array"
+    },
+    "threshold": {
+      "title": "Threshold",
+      "type": "number"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "report_id",
+    "site_id",
+    "model_id",
+    "version",
+    "created_at",
+    "created_by",
+    "aggregate_digest",
+    "protocol_digest",
+    "threshold",
+    "n",
+    "positives",
+    "metrics",
+    "auroc",
+    "reference_auroc",
+    "calibration",
+    "subgroups",
+    "warnings"
+  ],
+  "title": "BenchmarkReport",
+  "type": "object"
+}

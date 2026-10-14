@@ -1,0 +1,3666 @@
+{
+  "components": {
+    "schemas": {
+      "AgreementCriteria": {
+        "additionalProperties": false,
+        "properties": {
+          "kappa_min": {
+            "maximum": 1.0,
+            "minimum": -1.0,
+            "title": "Kappa Min",
+            "type": "number"
+          },
+          "npa_min": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Npa Min",
+            "type": "number"
+          },
+          "ppa_min": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Ppa Min",
+            "type": "number"
+          }
+        },
+        "required": [
+          "ppa_min",
+          "npa_min",
+          "kappa_min"
+        ],
+        "title": "AgreementCriteria",
+        "type": "object"
+      },
+      "AgreementResult": {
+        "properties": {
+          "comparator": {
+            "title": "Comparator",
+            "type": "string"
+          },
+          "kappa": {
+            "title": "Kappa",
+            "type": "number"
+          },
+          "kappa_lower": {
+            "title": "Kappa Lower",
+            "type": "number"
+          },
+          "kappa_upper": {
+            "title": "Kappa Upper",
+            "type": "number"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "negative_percent_agreement": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "overall_percent_agreement": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "positive_percent_agreement": {
+            "$ref": "#/components/schemas/Proportion"
+          }
+        },
+        "required": [
+          "n",
+          "comparator",
+          "positive_percent_agreement",
+          "negative_percent_agreement",
+          "overall_percent_agreement",
+          "kappa",
+          "kappa_lower",
+          "kappa_upper"
+        ],
+        "title": "AgreementResult",
+        "type": "object"
+      },
+      "AgreementStudy": {
+        "additionalProperties": false,
+        "description": "Qualitative accuracy: candidate (AI) result versus the comparator method.",
+        "properties": {
+          "both_negative": {
+            "minimum": 0.0,
+            "title": "Both Negative",
+            "type": "integer"
+          },
+          "both_positive": {
+            "minimum": 0.0,
+            "title": "Both Positive",
+            "type": "integer"
+          },
+          "candidate_negative_comparator_positive": {
+            "minimum": 0.0,
+            "title": "Candidate Negative Comparator Positive",
+            "type": "integer"
+          },
+          "candidate_positive_comparator_negative": {
+            "minimum": 0.0,
+            "title": "Candidate Positive Comparator Negative",
+            "type": "integer"
+          },
+          "comparator": {
+            "description": "Reference method used",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Comparator",
+            "type": "string"
+          }
+        },
+        "required": [
+          "both_positive",
+          "candidate_positive_comparator_negative",
+          "candidate_negative_comparator_positive",
+          "both_negative",
+          "comparator"
+        ],
+        "title": "AgreementStudy",
+        "type": "object"
+      },
+      "ApprovalList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ApprovalView"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id",
+          "items"
+        ],
+        "title": "ApprovalList",
+        "type": "object"
+      },
+      "ApprovalView": {
+        "properties": {
+          "approved_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approved At"
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires At"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "reapproval_id": {
+            "title": "Reapproval Id",
+            "type": "string"
+          },
+          "signed_by": {
+            "title": "Signed By",
+            "type": "string"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "status_reason": {
+            "title": "Status Reason",
+            "type": "string"
+          },
+          "use_permitted": {
+            "title": "Use Permitted",
+            "type": "boolean"
+          },
+          "validation_id": {
+            "title": "Validation Id",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id",
+          "model_id",
+          "version",
+          "status",
+          "use_permitted",
+          "approved_at",
+          "expires_at",
+          "validation_id",
+          "reapproval_id",
+          "signed_by",
+          "status_reason"
+        ],
+        "title": "ApprovalView",
+        "type": "object"
+      },
+      "BenchmarkCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "aggregate": {
+            "$ref": "#/components/schemas/PerformanceAggregate"
+          },
+          "model_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Model Id",
+            "type": "string"
+          },
+          "site_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Site Id",
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 32,
+            "minLength": 5,
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id",
+          "model_id",
+          "version",
+          "aggregate"
+        ],
+        "title": "BenchmarkCommand",
+        "type": "object"
+      },
+      "BenchmarkReport": {
+        "properties": {
+          "aggregate_digest": {
+            "title": "Aggregate Digest",
+            "type": "string"
+          },
+          "auroc": {
+            "$ref": "#/components/schemas/BootstrapInterval"
+          },
+          "calibration": {
+            "$ref": "#/components/schemas/Calibration"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "title": "Created By",
+            "type": "string"
+          },
+          "kind": {
+            "const": "benchmark",
+            "default": "benchmark",
+            "title": "Kind",
+            "type": "string"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/DiagnosticMetrics"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "positives": {
+            "title": "Positives",
+            "type": "integer"
+          },
+          "protocol_digest": {
+            "title": "Protocol Digest",
+            "type": "string"
+          },
+          "reference_auroc": {
+            "title": "Reference Auroc",
+            "type": "number"
+          },
+          "report_id": {
+            "title": "Report Id",
+            "type": "string"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          },
+          "subgroups": {
+            "items": {
+              "$ref": "#/components/schemas/SubgroupPerformance"
+            },
+            "title": "Subgroups",
+            "type": "array"
+          },
+          "threshold": {
+            "title": "Threshold",
+            "type": "number"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "report_id",
+          "site_id",
+          "model_id",
+          "version",
+          "created_at",
+          "created_by",
+          "aggregate_digest",
+          "protocol_digest",
+          "threshold",
+          "n",
+          "positives",
+          "metrics",
+          "auroc",
+          "reference_auroc",
+          "calibration",
+          "subgroups",
+          "warnings"
+        ],
+        "title": "BenchmarkReport",
+        "type": "object"
+      },
+      "BootstrapInterval": {
+        "properties": {
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "estimate": {
+            "title": "Estimate",
+            "type": "number"
+          },
+          "iterations": {
+            "title": "Iterations",
+            "type": "integer"
+          },
+          "lower": {
+            "title": "Lower",
+            "type": "number"
+          },
+          "method": {
+            "default": "stratified percentile bootstrap",
+            "title": "Method",
+            "type": "string"
+          },
+          "seed": {
+            "title": "Seed",
+            "type": "integer"
+          },
+          "upper": {
+            "title": "Upper",
+            "type": "number"
+          }
+        },
+        "required": [
+          "estimate",
+          "lower",
+          "upper",
+          "confidence",
+          "iterations",
+          "seed"
+        ],
+        "title": "BootstrapInterval",
+        "type": "object"
+      },
+      "Calibration": {
+        "properties": {
+          "bins": {
+            "items": {
+              "$ref": "#/components/schemas/CalibrationBin"
+            },
+            "title": "Bins",
+            "type": "array"
+          },
+          "brier": {
+            "title": "Brier",
+            "type": "number"
+          },
+          "ece": {
+            "title": "Ece",
+            "type": "number"
+          },
+          "mce": {
+            "title": "Mce",
+            "type": "number"
+          }
+        },
+        "required": [
+          "ece",
+          "mce",
+          "brier",
+          "bins"
+        ],
+        "title": "Calibration",
+        "type": "object"
+      },
+      "CalibrationBin": {
+        "properties": {
+          "lower": {
+            "title": "Lower",
+            "type": "number"
+          },
+          "mean_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Score"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "observed_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed Rate"
+          },
+          "upper": {
+            "title": "Upper",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lower",
+          "upper",
+          "n",
+          "mean_score",
+          "observed_rate"
+        ],
+        "title": "CalibrationBin",
+        "type": "object"
+      },
+      "CategoricalFeature": {
+        "additionalProperties": false,
+        "properties": {
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 100,
+            "minItems": 2,
+            "title": "Categories",
+            "type": "array"
+          },
+          "kind": {
+            "const": "categorical",
+            "default": "categorical",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "categories"
+        ],
+        "title": "CategoricalFeature",
+        "type": "object"
+      },
+      "ChiSquareResult": {
+        "properties": {
+          "categories": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Categories",
+            "type": "array"
+          },
+          "cramers_v": {
+            "title": "Cramers V",
+            "type": "number"
+          },
+          "dof": {
+            "title": "Dof",
+            "type": "integer"
+          },
+          "min_expected": {
+            "title": "Min Expected",
+            "type": "number"
+          },
+          "p_value": {
+            "title": "P Value",
+            "type": "number"
+          },
+          "statistic": {
+            "title": "Statistic",
+            "type": "number"
+          }
+        },
+        "required": [
+          "statistic",
+          "dof",
+          "p_value",
+          "cramers_v",
+          "min_expected",
+          "categories"
+        ],
+        "title": "ChiSquareResult",
+        "type": "object"
+      },
+      "ConfusionCounts": {
+        "properties": {
+          "false_negative": {
+            "title": "False Negative",
+            "type": "integer"
+          },
+          "false_positive": {
+            "title": "False Positive",
+            "type": "integer"
+          },
+          "true_negative": {
+            "title": "True Negative",
+            "type": "integer"
+          },
+          "true_positive": {
+            "title": "True Positive",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "true_positive",
+          "false_positive",
+          "false_negative",
+          "true_negative"
+        ],
+        "title": "ConfusionCounts",
+        "type": "object"
+      },
+      "ContinuousFeature": {
+        "additionalProperties": false,
+        "properties": {
+          "edges": {
+            "description": "Interior bin edges; bins are (-inf,e0), [e0,e1), ..., [e_last,+inf)",
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Edges",
+            "type": "array"
+          },
+          "kind": {
+            "const": "continuous",
+            "default": "continuous",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "unit": {
+            "maxLength": 32,
+            "minLength": 1,
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "unit",
+          "edges"
+        ],
+        "title": "ContinuousFeature",
+        "type": "object"
+      },
+      "CriterionResult": {
+        "properties": {
+          "comparator": {
+            "enum": [
+              ">=",
+              "<=",
+              "<",
+              "is"
+            ],
+            "title": "Comparator",
+            "type": "string"
+          },
+          "criterion": {
+            "title": "Criterion",
+            "type": "string"
+          },
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "observed": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observed"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "threshold": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Threshold"
+          }
+        },
+        "required": [
+          "criterion",
+          "observed",
+          "threshold",
+          "comparator",
+          "passed",
+          "detail"
+        ],
+        "title": "CriterionResult",
+        "type": "object"
+      },
+      "DiagnosticMetrics": {
+        "properties": {
+          "accuracy": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "counts": {
+            "$ref": "#/components/schemas/ConfusionCounts"
+          },
+          "npv": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "ppv": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "prevalence": {
+            "title": "Prevalence",
+            "type": "number"
+          },
+          "sensitivity": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "specificity": {
+            "$ref": "#/components/schemas/Proportion"
+          }
+        },
+        "required": [
+          "counts",
+          "sensitivity",
+          "specificity",
+          "ppv",
+          "npv",
+          "accuracy",
+          "prevalence"
+        ],
+        "title": "DiagnosticMetrics",
+        "type": "object"
+      },
+      "ElectronicSignature": {
+        "description": "21 CFR 11.50 signature manifestation, linked to the signed evidence by digest.",
+        "properties": {
+          "authenticated_at": {
+            "format": "date-time",
+            "title": "Authenticated At",
+            "type": "string"
+          },
+          "evidence_digest": {
+            "title": "Evidence Digest",
+            "type": "string"
+          },
+          "meaning": {
+            "$ref": "#/components/schemas/SignatureMeaning"
+          },
+          "printed_name": {
+            "title": "Printed Name",
+            "type": "string"
+          },
+          "signed_at": {
+            "format": "date-time",
+            "title": "Signed At",
+            "type": "string"
+          },
+          "signer": {
+            "title": "Signer",
+            "type": "string"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "signer",
+          "printed_name",
+          "meaning",
+          "signed_at",
+          "evidence_digest",
+          "statement",
+          "authenticated_at"
+        ],
+        "title": "ElectronicSignature",
+        "type": "object"
+      },
+      "FeatureShift": {
+        "properties": {
+          "chi_square": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChiSquareResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "feature": {
+            "title": "Feature",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "continuous",
+              "categorical",
+              "score"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "ks": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/KsResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "psi": {
+            "title": "Psi",
+            "type": "number"
+          },
+          "severity": {
+            "enum": [
+              "none",
+              "moderate",
+              "major"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "significant": {
+            "title": "Significant",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "feature",
+          "kind",
+          "psi",
+          "severity",
+          "significant"
+        ],
+        "title": "FeatureShift",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "KsResult": {
+        "properties": {
+          "n_reference": {
+            "title": "N Reference",
+            "type": "integer"
+          },
+          "n_site": {
+            "title": "N Site",
+            "type": "integer"
+          },
+          "p_value": {
+            "title": "P Value",
+            "type": "number"
+          },
+          "statistic": {
+            "title": "Statistic",
+            "type": "number"
+          }
+        },
+        "required": [
+          "statistic",
+          "p_value",
+          "n_reference",
+          "n_site"
+        ],
+        "title": "KsResult",
+        "type": "object"
+      },
+      "LabelShiftResult": {
+        "properties": {
+          "class_weights": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Class Weights",
+            "type": "array"
+          },
+          "clipped": {
+            "title": "Clipped",
+            "type": "boolean"
+          },
+          "condition_number": {
+            "title": "Condition Number",
+            "type": "number"
+          },
+          "estimated_site_prior": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Estimated Site Prior",
+            "type": "array"
+          },
+          "reference_prior": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Reference Prior",
+            "type": "array"
+          }
+        },
+        "required": [
+          "class_weights",
+          "reference_prior",
+          "estimated_site_prior",
+          "condition_number",
+          "clipped"
+        ],
+        "title": "LabelShiftResult",
+        "type": "object"
+      },
+      "LinearityLevel": {
+        "additionalProperties": false,
+        "properties": {
+          "expected": {
+            "title": "Expected",
+            "type": "number"
+          },
+          "measurements": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Measurements",
+            "type": "array"
+          }
+        },
+        "required": [
+          "expected",
+          "measurements"
+        ],
+        "title": "LinearityLevel",
+        "type": "object"
+      },
+      "LinearityLevelResult": {
+        "properties": {
+          "bias_pct": {
+            "title": "Bias Pct",
+            "type": "number"
+          },
+          "expected": {
+            "title": "Expected",
+            "type": "number"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "nonlinearity_pct": {
+            "title": "Nonlinearity Pct",
+            "type": "number"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "expected",
+          "mean",
+          "bias_pct",
+          "nonlinearity_pct",
+          "passed"
+        ],
+        "title": "LinearityLevelResult",
+        "type": "object"
+      },
+      "LinearityResult": {
+        "properties": {
+          "best_fit_degree": {
+            "title": "Best Fit Degree",
+            "type": "integer"
+          },
+          "claimed_high": {
+            "title": "Claimed High",
+            "type": "number"
+          },
+          "claimed_low": {
+            "title": "Claimed Low",
+            "type": "number"
+          },
+          "intercept": {
+            "title": "Intercept",
+            "type": "number"
+          },
+          "levels": {
+            "items": {
+              "$ref": "#/components/schemas/LinearityLevelResult"
+            },
+            "title": "Levels",
+            "type": "array"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "slope": {
+            "title": "Slope",
+            "type": "number"
+          },
+          "verified_high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified High"
+          },
+          "verified_low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified Low"
+          }
+        },
+        "required": [
+          "levels",
+          "best_fit_degree",
+          "slope",
+          "intercept",
+          "verified_low",
+          "verified_high",
+          "claimed_low",
+          "claimed_high",
+          "passed"
+        ],
+        "title": "LinearityResult",
+        "type": "object"
+      },
+      "LinearityStudy": {
+        "additionalProperties": false,
+        "description": "CLSI EP6-style reportable range study of a quantitative model output.",
+        "properties": {
+          "levels": {
+            "items": {
+              "$ref": "#/components/schemas/LinearityLevel"
+            },
+            "maxItems": 20,
+            "minItems": 3,
+            "title": "Levels",
+            "type": "array"
+          }
+        },
+        "required": [
+          "levels"
+        ],
+        "title": "LinearityStudy",
+        "type": "object"
+      },
+      "ModelList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ModelSummary"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "ModelList",
+        "type": "object"
+      },
+      "ModelSummary": {
+        "properties": {
+          "artifact_digest": {
+            "title": "Artifact Digest",
+            "type": "string"
+          },
+          "decision_threshold": {
+            "title": "Decision Threshold",
+            "type": "number"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "manufacturer": {
+            "title": "Manufacturer",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "protocol": {
+            "title": "Protocol",
+            "type": "string"
+          },
+          "protocol_digest": {
+            "title": "Protocol Digest",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model_id",
+          "version",
+          "display_name",
+          "manufacturer",
+          "artifact_digest",
+          "decision_threshold",
+          "protocol",
+          "protocol_digest"
+        ],
+        "title": "ModelSummary",
+        "type": "object"
+      },
+      "ModelVersion": {
+        "additionalProperties": false,
+        "description": "An immutable, versioned AI model that sites validate before clinical use.",
+        "properties": {
+          "artifact_digest": {
+            "description": "sha256 of the deployed model artifact",
+            "title": "Artifact Digest",
+            "type": "string"
+          },
+          "decision_threshold": {
+            "exclusiveMaximum": 1.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Decision Threshold",
+            "type": "number"
+          },
+          "display_name": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Display Name",
+            "type": "string"
+          },
+          "features": {
+            "default": [],
+            "items": {
+              "discriminator": {
+                "mapping": {
+                  "categorical": "#/components/schemas/CategoricalFeature",
+                  "continuous": "#/components/schemas/ContinuousFeature"
+                },
+                "propertyName": "kind"
+              },
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ContinuousFeature"
+                },
+                {
+                  "$ref": "#/components/schemas/CategoricalFeature"
+                }
+              ]
+            },
+            "maxItems": 200,
+            "title": "Features",
+            "type": "array"
+          },
+          "intended_use": {
+            "maxLength": 4000,
+            "minLength": 20,
+            "title": "Intended Use",
+            "type": "string"
+          },
+          "manufacturer": {
+            "maxLength": 200,
+            "minLength": 2,
+            "title": "Manufacturer",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "protocol": {
+            "$ref": "#/components/schemas/ValidationProtocol"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/ReferenceProfile"
+          },
+          "score_edges": {
+            "description": "Probability score bin edges from 0.0 to 1.0, strictly increasing",
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1001,
+            "minItems": 3,
+            "title": "Score Edges",
+            "type": "array"
+          },
+          "subgroup_attributes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "title": "Subgroup Attributes",
+            "type": "array"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model_id",
+          "version",
+          "display_name",
+          "intended_use",
+          "manufacturer",
+          "artifact_digest",
+          "score_edges",
+          "decision_threshold",
+          "protocol",
+          "reference"
+        ],
+        "title": "ModelVersion",
+        "type": "object"
+      },
+      "PerformanceAggregate": {
+        "additionalProperties": false,
+        "description": "Labeled outcome statistics for one site and one model version.",
+        "properties": {
+          "overall": {
+            "$ref": "#/components/schemas/ScoreHistogram"
+          },
+          "subgroups": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ScoreHistogram"
+            },
+            "description": "Keyed '<attribute>=<value>', e.g. 'sex=F'; attributes come from the model",
+            "maxProperties": 200,
+            "title": "Subgroups",
+            "type": "object"
+          }
+        },
+        "required": [
+          "overall"
+        ],
+        "title": "PerformanceAggregate",
+        "type": "object"
+      },
+      "PopulationAggregate": {
+        "additionalProperties": false,
+        "description": "Unlabeled population statistics used for shift detection.",
+        "properties": {
+          "categorical": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            "maxProperties": 200,
+            "title": "Categorical",
+            "type": "object"
+          },
+          "continuous": {
+            "additionalProperties": {
+              "items": {
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "maxProperties": 200,
+            "title": "Continuous",
+            "type": "object"
+          },
+          "n": {
+            "minimum": 1.0,
+            "title": "N",
+            "type": "integer"
+          },
+          "score_counts": {
+            "items": {
+              "minimum": 0.0,
+              "type": "integer"
+            },
+            "maxItems": 1000,
+            "minItems": 2,
+            "title": "Score Counts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "n",
+          "score_counts"
+        ],
+        "title": "PopulationAggregate",
+        "type": "object"
+      },
+      "PrecisionCriteria": {
+        "additionalProperties": false,
+        "properties": {
+          "alpha": {
+            "default": 0.05,
+            "exclusiveMaximum": 0.5,
+            "exclusiveMinimum": 0.0,
+            "title": "Alpha",
+            "type": "number"
+          },
+          "repeatability_cv_pct": {
+            "description": "Claimed repeatability CV",
+            "exclusiveMinimum": 0.0,
+            "maximum": 100.0,
+            "title": "Repeatability Cv Pct",
+            "type": "number"
+          },
+          "within_lab_cv_pct": {
+            "description": "Claimed within-laboratory CV",
+            "exclusiveMinimum": 0.0,
+            "maximum": 100.0,
+            "title": "Within Lab Cv Pct",
+            "type": "number"
+          }
+        },
+        "required": [
+          "repeatability_cv_pct",
+          "within_lab_cv_pct"
+        ],
+        "title": "PrecisionCriteria",
+        "type": "object"
+      },
+      "PrecisionLevel": {
+        "additionalProperties": false,
+        "description": "One verification material measured as replicates within runs over several days.",
+        "properties": {
+          "days": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "maxItems": 60,
+            "minItems": 2,
+            "title": "Days",
+            "type": "array"
+          },
+          "material": {
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Material",
+            "type": "string"
+          }
+        },
+        "required": [
+          "material",
+          "days"
+        ],
+        "title": "PrecisionLevel",
+        "type": "object"
+      },
+      "PrecisionLevelResult": {
+        "properties": {
+          "between_day_sd": {
+            "title": "Between Day Sd",
+            "type": "number"
+          },
+          "days": {
+            "title": "Days",
+            "type": "integer"
+          },
+          "material": {
+            "title": "Material",
+            "type": "string"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "repeatability_cv_pct": {
+            "title": "Repeatability Cv Pct",
+            "type": "number"
+          },
+          "repeatability_df": {
+            "title": "Repeatability Df",
+            "type": "integer"
+          },
+          "repeatability_sd": {
+            "title": "Repeatability Sd",
+            "type": "number"
+          },
+          "repeatability_uvl_cv_pct": {
+            "title": "Repeatability Uvl Cv Pct",
+            "type": "number"
+          },
+          "repeatability_verified": {
+            "title": "Repeatability Verified",
+            "type": "boolean"
+          },
+          "replicates_per_day": {
+            "title": "Replicates Per Day",
+            "type": "integer"
+          },
+          "within_lab_cv_pct": {
+            "title": "Within Lab Cv Pct",
+            "type": "number"
+          },
+          "within_lab_df": {
+            "title": "Within Lab Df",
+            "type": "number"
+          },
+          "within_lab_sd": {
+            "title": "Within Lab Sd",
+            "type": "number"
+          },
+          "within_lab_uvl_cv_pct": {
+            "title": "Within Lab Uvl Cv Pct",
+            "type": "number"
+          },
+          "within_lab_verified": {
+            "title": "Within Lab Verified",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "material",
+          "days",
+          "replicates_per_day",
+          "mean",
+          "repeatability_sd",
+          "repeatability_cv_pct",
+          "between_day_sd",
+          "within_lab_sd",
+          "within_lab_cv_pct",
+          "repeatability_df",
+          "within_lab_df",
+          "repeatability_uvl_cv_pct",
+          "within_lab_uvl_cv_pct",
+          "repeatability_verified",
+          "within_lab_verified"
+        ],
+        "title": "PrecisionLevelResult",
+        "type": "object"
+      },
+      "PrecisionResult": {
+        "properties": {
+          "levels": {
+            "items": {
+              "$ref": "#/components/schemas/PrecisionLevelResult"
+            },
+            "title": "Levels",
+            "type": "array"
+          },
+          "passed": {
+            "title": "Passed",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "levels",
+          "passed"
+        ],
+        "title": "PrecisionResult",
+        "type": "object"
+      },
+      "PrecisionStudy": {
+        "additionalProperties": false,
+        "description": "CLSI EP15-style repeatability and within-laboratory precision study.",
+        "properties": {
+          "levels": {
+            "items": {
+              "$ref": "#/components/schemas/PrecisionLevel"
+            },
+            "maxItems": 10,
+            "minItems": 1,
+            "title": "Levels",
+            "type": "array"
+          }
+        },
+        "required": [
+          "levels"
+        ],
+        "title": "PrecisionStudy",
+        "type": "object"
+      },
+      "Proportion": {
+        "description": "A binomial proportion with its Wilson score interval.",
+        "properties": {
+          "denominator": {
+            "title": "Denominator",
+            "type": "integer"
+          },
+          "estimate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimate"
+          },
+          "lower": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lower"
+          },
+          "numerator": {
+            "title": "Numerator",
+            "type": "integer"
+          },
+          "upper": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upper"
+          }
+        },
+        "required": [
+          "estimate",
+          "lower",
+          "upper",
+          "numerator",
+          "denominator"
+        ],
+        "title": "Proportion",
+        "type": "object"
+      },
+      "ReapprovalCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "justification": {
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Justification",
+            "type": "string"
+          },
+          "validation_id": {
+            "maxLength": 64,
+            "minLength": 8,
+            "title": "Validation Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "validation_id",
+          "justification"
+        ],
+        "title": "ReapprovalCommand",
+        "type": "object"
+      },
+      "ReapprovalList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReapprovalRequest"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "ReapprovalList",
+        "type": "object"
+      },
+      "ReapprovalRequest": {
+        "description": "A validated model version awaiting the medical director's signature.",
+        "properties": {
+          "decided_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At"
+          },
+          "evidence_digest": {
+            "title": "Evidence Digest",
+            "type": "string"
+          },
+          "justification": {
+            "title": "Justification",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "policy_decision": {
+            "title": "Policy Decision",
+            "type": "string"
+          },
+          "policy_digest": {
+            "title": "Policy Digest",
+            "type": "string"
+          },
+          "policy_rules": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Policy Rules",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "requested_at": {
+            "format": "date-time",
+            "title": "Requested At",
+            "type": "string"
+          },
+          "requested_by": {
+            "title": "Requested By",
+            "type": "string"
+          },
+          "requested_by_kind": {
+            "enum": [
+              "user",
+              "agent"
+            ],
+            "title": "Requested By Kind",
+            "type": "string"
+          },
+          "signature": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ElectronicSignature"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ReapprovalStatus",
+            "default": "pending_signoff"
+          },
+          "validation_id": {
+            "title": "Validation Id",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "request_id",
+          "site_id",
+          "model_id",
+          "version",
+          "validation_id",
+          "evidence_digest",
+          "justification",
+          "requested_by",
+          "requested_by_kind",
+          "requested_at",
+          "policy_decision",
+          "policy_rules",
+          "policy_digest"
+        ],
+        "title": "ReapprovalRequest",
+        "type": "object"
+      },
+      "ReapprovalStatus": {
+        "enum": [
+          "pending_signoff",
+          "approved",
+          "rejected"
+        ],
+        "title": "ReapprovalStatus",
+        "type": "string"
+      },
+      "ReferenceProfile": {
+        "additionalProperties": false,
+        "description": "Aggregates from the development / pivotal validation population.",
+        "properties": {
+          "performance": {
+            "$ref": "#/components/schemas/PerformanceAggregate"
+          },
+          "population": {
+            "$ref": "#/components/schemas/PopulationAggregate"
+          },
+          "source": {
+            "description": "Where the reference came from",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Source",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "performance",
+          "population"
+        ],
+        "title": "ReferenceProfile",
+        "type": "object"
+      },
+      "ReportableRangeCriteria": {
+        "additionalProperties": false,
+        "properties": {
+          "allowable_bias_pct": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 50.0,
+            "title": "Allowable Bias Pct",
+            "type": "number"
+          },
+          "allowable_nonlinearity_pct": {
+            "exclusiveMinimum": 0.0,
+            "maximum": 50.0,
+            "title": "Allowable Nonlinearity Pct",
+            "type": "number"
+          },
+          "claimed_high": {
+            "title": "Claimed High",
+            "type": "number"
+          },
+          "claimed_low": {
+            "title": "Claimed Low",
+            "type": "number"
+          }
+        },
+        "required": [
+          "claimed_low",
+          "claimed_high",
+          "allowable_nonlinearity_pct",
+          "allowable_bias_pct"
+        ],
+        "title": "ReportableRangeCriteria",
+        "type": "object"
+      },
+      "ScoreHistogram": {
+        "additionalProperties": false,
+        "properties": {
+          "negative_score_sum": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000,
+            "minItems": 2,
+            "title": "Negative Score Sum",
+            "type": "array"
+          },
+          "negatives": {
+            "items": {
+              "minimum": 0.0,
+              "type": "integer"
+            },
+            "maxItems": 1000,
+            "minItems": 2,
+            "title": "Negatives",
+            "type": "array"
+          },
+          "positive_score_sum": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000,
+            "minItems": 2,
+            "title": "Positive Score Sum",
+            "type": "array"
+          },
+          "positives": {
+            "items": {
+              "minimum": 0.0,
+              "type": "integer"
+            },
+            "maxItems": 1000,
+            "minItems": 2,
+            "title": "Positives",
+            "type": "array"
+          },
+          "score_sq_sum": {
+            "minimum": 0.0,
+            "title": "Score Sq Sum",
+            "type": "number"
+          }
+        },
+        "required": [
+          "positives",
+          "negatives",
+          "positive_score_sum",
+          "negative_score_sum",
+          "score_sq_sum"
+        ],
+        "title": "ScoreHistogram",
+        "type": "object"
+      },
+      "ShiftCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "model_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Model Id",
+            "type": "string"
+          },
+          "population": {
+            "$ref": "#/components/schemas/PopulationAggregate"
+          },
+          "site_id": {
+            "maxLength": 64,
+            "minLength": 3,
+            "title": "Site Id",
+            "type": "string"
+          },
+          "version": {
+            "maxLength": 32,
+            "minLength": 5,
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id",
+          "model_id",
+          "version",
+          "population"
+        ],
+        "title": "ShiftCommand",
+        "type": "object"
+      },
+      "ShiftOutcome": {
+        "properties": {
+          "approval_restricted": {
+            "title": "Approval Restricted",
+            "type": "boolean"
+          },
+          "report": {
+            "$ref": "#/components/schemas/ShiftReport"
+          }
+        },
+        "required": [
+          "report",
+          "approval_restricted"
+        ],
+        "title": "ShiftOutcome",
+        "type": "object"
+      },
+      "ShiftReport": {
+        "properties": {
+          "aggregate_digest": {
+            "title": "Aggregate Digest",
+            "type": "string"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "bonferroni_alpha": {
+            "title": "Bonferroni Alpha",
+            "type": "number"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "title": "Created By",
+            "type": "string"
+          },
+          "estimated_prevalence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estimated Prevalence"
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureShift"
+            },
+            "title": "Features",
+            "type": "array"
+          },
+          "findings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "kind": {
+            "const": "shift",
+            "default": "shift",
+            "title": "Kind",
+            "type": "string"
+          },
+          "label_shift": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LabelShiftResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "reference_prevalence": {
+            "title": "Reference Prevalence",
+            "type": "number"
+          },
+          "report_id": {
+            "title": "Report Id",
+            "type": "string"
+          },
+          "score": {
+            "$ref": "#/components/schemas/FeatureShift"
+          },
+          "severity": {
+            "enum": [
+              "none",
+              "moderate",
+              "major"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "report_id",
+          "site_id",
+          "model_id",
+          "version",
+          "created_at",
+          "created_by",
+          "aggregate_digest",
+          "n",
+          "features",
+          "score",
+          "label_shift",
+          "reference_prevalence",
+          "estimated_prevalence",
+          "alpha",
+          "bonferroni_alpha",
+          "severity",
+          "findings"
+        ],
+        "title": "ShiftReport",
+        "type": "object"
+      },
+      "SignatureCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "meaning": {
+            "$ref": "#/components/schemas/SignatureMeaning"
+          },
+          "statement": {
+            "description": "What the signer attests, e.g. reviewed evidence and approve clinical use",
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Statement",
+            "type": "string"
+          }
+        },
+        "required": [
+          "meaning",
+          "statement"
+        ],
+        "title": "SignatureCommand",
+        "type": "object"
+      },
+      "SignatureMeaning": {
+        "enum": [
+          "approval",
+          "rejection"
+        ],
+        "title": "SignatureMeaning",
+        "type": "string"
+      },
+      "SignatureResult": {
+        "properties": {
+          "approval": {
+            "$ref": "#/components/schemas/ApprovalView"
+          },
+          "request": {
+            "$ref": "#/components/schemas/ReapprovalRequest"
+          }
+        },
+        "required": [
+          "request",
+          "approval"
+        ],
+        "title": "SignatureResult",
+        "type": "object"
+      },
+      "Site": {
+        "additionalProperties": false,
+        "description": "A laboratory where a model is (or will be) used.",
+        "properties": {
+          "accreditation": {
+            "default": "CAP",
+            "enum": [
+              "CAP",
+              "COLA",
+              "TJC",
+              "A2LA",
+              "none"
+            ],
+            "title": "Accreditation",
+            "type": "string"
+          },
+          "clia_number": {
+            "description": "CLIA certificate number, 10 characters (NNDNNNNNNN)",
+            "title": "Clia Number",
+            "type": "string"
+          },
+          "medical_director": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Medical Director",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Name",
+            "type": "string"
+          },
+          "region": {
+            "maxLength": 64,
+            "minLength": 2,
+            "title": "Region",
+            "type": "string"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "site_id",
+          "name",
+          "clia_number",
+          "medical_director",
+          "region"
+        ],
+        "title": "Site",
+        "type": "object"
+      },
+      "SiteList": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Site"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "limit",
+          "offset"
+        ],
+        "title": "SiteList",
+        "type": "object"
+      },
+      "SubgroupPerformance": {
+        "properties": {
+          "auroc": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auroc"
+          },
+          "auroc_gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auroc Gap"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "positives": {
+            "title": "Positives",
+            "type": "integer"
+          },
+          "reportable": {
+            "title": "Reportable",
+            "type": "boolean"
+          },
+          "sensitivity": {
+            "$ref": "#/components/schemas/Proportion"
+          },
+          "specificity": {
+            "$ref": "#/components/schemas/Proportion"
+          }
+        },
+        "required": [
+          "key",
+          "n",
+          "positives",
+          "reportable",
+          "sensitivity",
+          "specificity",
+          "auroc",
+          "auroc_gap"
+        ],
+        "title": "SubgroupPerformance",
+        "type": "object"
+      },
+      "ValidationCommand": {
+        "additionalProperties": false,
+        "properties": {
+          "benchmark_id": {
+            "maxLength": 64,
+            "minLength": 8,
+            "title": "Benchmark Id",
+            "type": "string"
+          },
+          "shift_id": {
+            "maxLength": 64,
+            "minLength": 8,
+            "title": "Shift Id",
+            "type": "string"
+          },
+          "studies": {
+            "$ref": "#/components/schemas/VerificationStudies"
+          }
+        },
+        "required": [
+          "benchmark_id",
+          "shift_id"
+        ],
+        "title": "ValidationCommand",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "ValidationProtocol": {
+        "additionalProperties": false,
+        "description": "Acceptance criteria a site must meet before a medical director may approve use.",
+        "properties": {
+          "agreement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgreementCriteria"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "auroc_lower_ci_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Auroc Lower Ci Min"
+          },
+          "bootstrap_iterations": {
+            "default": 2000,
+            "maximum": 20000.0,
+            "minimum": 200.0,
+            "title": "Bootstrap Iterations",
+            "type": "integer"
+          },
+          "confidence": {
+            "default": 0.95,
+            "maximum": 0.999,
+            "minimum": 0.8,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "ece_max": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ece Max"
+          },
+          "min_cases": {
+            "default": 200,
+            "minimum": 20.0,
+            "title": "Min Cases",
+            "type": "integer"
+          },
+          "min_positives": {
+            "default": 40,
+            "minimum": 5.0,
+            "title": "Min Positives",
+            "type": "integer"
+          },
+          "name": {
+            "maxLength": 120,
+            "minLength": 3,
+            "title": "Name",
+            "type": "string"
+          },
+          "npv_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Npv Min"
+          },
+          "ppv_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ppv Min"
+          },
+          "precision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrecisionCriteria"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prevalence_shift_max": {
+            "default": 0.1,
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Prevalence Shift Max",
+            "type": "number"
+          },
+          "psi_major": {
+            "default": 0.25,
+            "exclusiveMinimum": 0.0,
+            "title": "Psi Major",
+            "type": "number"
+          },
+          "psi_moderate": {
+            "default": 0.1,
+            "exclusiveMinimum": 0.0,
+            "title": "Psi Moderate",
+            "type": "number"
+          },
+          "reportable_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReportableRangeCriteria"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "revalidation_interval_days": {
+            "default": 365,
+            "maximum": 1095.0,
+            "minimum": 30.0,
+            "title": "Revalidation Interval Days",
+            "type": "integer"
+          },
+          "sensitivity_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sensitivity Min"
+          },
+          "shift_alpha": {
+            "default": 0.05,
+            "exclusiveMaximum": 0.5,
+            "exclusiveMinimum": 0.0,
+            "title": "Shift Alpha",
+            "type": "number"
+          },
+          "specificity_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Specificity Min"
+          },
+          "subgroup_auroc_gap_max": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subgroup Auroc Gap Max"
+          },
+          "subgroup_min_cases": {
+            "default": 50,
+            "minimum": 10.0,
+            "title": "Subgroup Min Cases",
+            "type": "integer"
+          },
+          "subgroup_sensitivity_min": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Subgroup Sensitivity Min"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version"
+        ],
+        "title": "ValidationProtocol",
+        "type": "object"
+      },
+      "ValidationRun": {
+        "properties": {
+          "agreement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgreementResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "benchmark_digest": {
+            "title": "Benchmark Digest",
+            "type": "string"
+          },
+          "benchmark_id": {
+            "title": "Benchmark Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "title": "Created By",
+            "type": "string"
+          },
+          "criteria": {
+            "items": {
+              "$ref": "#/components/schemas/CriterionResult"
+            },
+            "title": "Criteria",
+            "type": "array"
+          },
+          "evidence_digest": {
+            "default": "",
+            "title": "Evidence Digest",
+            "type": "string"
+          },
+          "kind": {
+            "const": "validation",
+            "default": "validation",
+            "title": "Kind",
+            "type": "string"
+          },
+          "model_id": {
+            "title": "Model Id",
+            "type": "string"
+          },
+          "precision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrecisionResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "protocol_digest": {
+            "title": "Protocol Digest",
+            "type": "string"
+          },
+          "protocol_name": {
+            "title": "Protocol Name",
+            "type": "string"
+          },
+          "protocol_version": {
+            "title": "Protocol Version",
+            "type": "string"
+          },
+          "report_id": {
+            "title": "Report Id",
+            "type": "string"
+          },
+          "reportable_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LinearityResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shift_digest": {
+            "title": "Shift Digest",
+            "type": "string"
+          },
+          "shift_id": {
+            "title": "Shift Id",
+            "type": "string"
+          },
+          "site_id": {
+            "title": "Site Id",
+            "type": "string"
+          },
+          "verdict": {
+            "enum": [
+              "pass",
+              "fail"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "report_id",
+          "site_id",
+          "model_id",
+          "version",
+          "created_at",
+          "created_by",
+          "protocol_name",
+          "protocol_version",
+          "protocol_digest",
+          "benchmark_id",
+          "benchmark_digest",
+          "shift_id",
+          "shift_digest",
+          "agreement",
+          "precision",
+          "reportable_range",
+          "criteria",
+          "verdict"
+        ],
+        "title": "ValidationRun",
+        "type": "object"
+      },
+      "VerificationStudies": {
+        "additionalProperties": false,
+        "properties": {
+          "agreement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgreementStudy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "precision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrecisionStudy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reportable_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LinearityStudy"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "VerificationStudies",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Cross-site validation of laboratory AI models: model registry with approved versions per site, benchmark harness, population shift detection, CLIA/CAP-style method verification and medical-director reapproval, on federated aggregates.",
+    "title": "Clinical Laboratory AI Assurance Platform",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/.well-known/agent-card.json": {
+      "get": {
+        "description": "A2A Agent Card describing skills, endpoint and security schemes.",
+        "operationId": "get_agent_card__well_known_agent_card_json_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Agent Card  Well Known Agent Card Json Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Agent Card",
+        "tags": [
+          "a2a"
+        ]
+      }
+    },
+    "/a2a": {
+      "post": {
+        "description": "JSON-RPC 2.0 endpoint implementing A2A ``message/send``.",
+        "operationId": "a2a_endpoint_a2a_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "A2A Endpoint",
+        "tags": [
+          "a2a"
+        ]
+      }
+    },
+    "/v1/benchmarks": {
+      "post": {
+        "operationId": "run_benchmark_v1_benchmarks_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BenchmarkCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BenchmarkReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Run Benchmark",
+        "tags": [
+          "assurance"
+        ]
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "operationId": "list_models_v1_models_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Models",
+        "tags": [
+          "registry"
+        ]
+      },
+      "post": {
+        "operationId": "register_model_v1_models_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelVersion"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelSummary"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Register Model",
+        "tags": [
+          "registry"
+        ]
+      }
+    },
+    "/v1/models/{model_id}/{version}": {
+      "get": {
+        "operationId": "get_model_v1_models__model_id___version__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "model_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z0-9][a-z0-9\\-_.]{1,62}[a-z0-9]$",
+              "title": "Model Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "pattern": "^\\d+\\.\\d+\\.\\d+$",
+              "title": "Version",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelVersion"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Model",
+        "tags": [
+          "registry"
+        ]
+      }
+    },
+    "/v1/reapprovals": {
+      "get": {
+        "operationId": "list_reapprovals_v1_reapprovals_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ReapprovalStatus"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "in": "query",
+            "name": "site_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^[a-z0-9][a-z0-9\\-_.]{1,62}[a-z0-9]$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Site Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReapprovalList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Reapprovals",
+        "tags": [
+          "reapproval"
+        ]
+      },
+      "post": {
+        "description": "Submit a passing validation for sign-off. Always pending until a medical director signs.",
+        "operationId": "request_reapproval_v1_reapprovals_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReapprovalCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReapprovalRequest"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Request Reapproval",
+        "tags": [
+          "reapproval"
+        ]
+      }
+    },
+    "/v1/reapprovals/{request_id}": {
+      "get": {
+        "operationId": "get_reapproval_v1_reapprovals__request_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "request_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z]{3,6}-[0-9a-f]{32}$",
+              "title": "Request Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReapprovalRequest"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Reapproval",
+        "tags": [
+          "reapproval"
+        ]
+      }
+    },
+    "/v1/reapprovals/{request_id}/signature": {
+      "post": {
+        "description": "Medical-director electronic signature (21 CFR Part 11): approve or reject clinical use.",
+        "operationId": "sign_reapproval_v1_reapprovals__request_id__signature_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "request_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z]{3,6}-[0-9a-f]{32}$",
+              "title": "Request Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignatureCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignatureResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sign Reapproval",
+        "tags": [
+          "reapproval"
+        ]
+      }
+    },
+    "/v1/reports/{report_id}": {
+      "get": {
+        "operationId": "get_report_v1_reports__report_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z]{3,6}-[0-9a-f]{32}$",
+              "title": "Report Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "discriminator": {
+                    "mapping": {
+                      "benchmark": "#/components/schemas/BenchmarkReport",
+                      "shift": "#/components/schemas/ShiftReport",
+                      "validation": "#/components/schemas/ValidationRun"
+                    },
+                    "propertyName": "kind"
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/BenchmarkReport"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ShiftReport"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ValidationRun"
+                    }
+                  ],
+                  "title": "Response Get Report V1 Reports  Report Id  Get"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Report",
+        "tags": [
+          "assurance"
+        ]
+      }
+    },
+    "/v1/shift-analyses": {
+      "post": {
+        "operationId": "run_shift_analysis_v1_shift_analyses_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShiftCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShiftOutcome"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Run Shift Analysis",
+        "tags": [
+          "assurance"
+        ]
+      }
+    },
+    "/v1/sites": {
+      "get": {
+        "operationId": "list_sites_v1_sites_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 100,
+              "maximum": 500,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiteList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Sites",
+        "tags": [
+          "registry"
+        ]
+      },
+      "post": {
+        "operationId": "register_site_v1_sites_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Site"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Site"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Register Site",
+        "tags": [
+          "registry"
+        ]
+      }
+    },
+    "/v1/sites/{site_id}/approvals": {
+      "get": {
+        "operationId": "site_approvals_v1_sites__site_id__approvals_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "site_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[a-z0-9][a-z0-9\\-_.]{1,62}[a-z0-9]$",
+              "title": "Site Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Site Approvals",
+        "tags": [
+          "registry"
+        ]
+      }
+    },
+    "/v1/validations": {
+      "post": {
+        "operationId": "run_validation_v1_validations_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidationCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationRun"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Run Validation",
+        "tags": [
+          "assurance"
+        ]
+      }
+    }
+  }
+}

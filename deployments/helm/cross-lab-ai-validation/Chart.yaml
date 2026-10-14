@@ -1,0 +1,13 @@
+apiVersion: v2
+name: cross-lab-ai-validation
+description: Clinical laboratory AI assurance platform for cross-site validation and reapproval
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+kubeVersion: ">=1.27.0-0"
+home: https://github.com/kogunlowo123/cross-lab-ai-validation
+sources:
+  - https://github.com/kogunlowo123/cross-lab-ai-validation
+maintainers:
+  - name: kogunlowo123
+    url: https://github.com/kogunlowo123

@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "AgreementStudy": {
+      "additionalProperties": false,
+      "description": "Qualitative accuracy: candidate (AI) result versus the comparator method.",
+      "properties": {
+        "both_negative": {
+          "minimum": 0,
+          "title": "Both Negative",
+          "type": "integer"
+        },
+        "both_positive": {
+          "minimum": 0,
+          "title": "Both Positive",
+          "type": "integer"
+        },
+        "candidate_negative_comparator_positive": {
+          "minimum": 0,
+          "title": "Candidate Negative Comparator Positive",
+          "type": "integer"
+        },
+        "candidate_positive_comparator_negative": {
+          "minimum": 0,
+          "title": "Candidate Positive Comparator Negative",
+          "type": "integer"
+        },
+        "comparator": {
+          "description": "Reference method used",
+          "maxLength": 200,
+          "minLength": 3,
+          "title": "Comparator",
+          "type": "string"
+        }
+      },
+      "required": [
+        "both_positive",
+        "candidate_positive_comparator_negative",
+        "candidate_negative_comparator_positive",
+        "both_negative",
+        "comparator"
+      ],
+      "title": "AgreementStudy",
+      "type": "object"
+    },
+    "LinearityLevel": {
+      "additionalProperties": false,
+      "properties": {
+        "expected": {
+          "title": "Expected",
+          "type": "number"
+        },
+        "measurements": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Measurements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "expected",
+        "measurements"
+      ],
+      "title": "LinearityLevel",
+      "type": "object"
+    },
+    "LinearityStudy": {
+      "additionalProperties": false,
+      "description": "CLSI EP6-style reportable range study of a quantitative model output.",
+      "properties": {
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/LinearityLevel"
+          },
+          "maxItems": 20,
+          "minItems": 3,
+          "title": "Levels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "levels"
+      ],
+      "title": "LinearityStudy",
+      "type": "object"
+    },
+    "PrecisionLevel": {
+      "additionalProperties": false,
+      "description": "One verification material measured as replicates within runs over several days.",
+      "properties": {
+        "days": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "maxItems": 60,
+          "minItems": 2,
+          "title": "Days",
+          "type": "array"
+        },
+        "material": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Material",
+          "type": "string"
+        }
+      },
+      "required": [
+        "material",
+        "days"
+      ],
+      "title": "PrecisionLevel",
+      "type": "object"
+    },
+    "PrecisionStudy": {
+      "additionalProperties": false,
+      "description": "CLSI EP15-style repeatability and within-laboratory precision study.",
+      "properties": {
+        "levels": {
+          "items": {
+            "$ref": "#/$defs/PrecisionLevel"
+          },
+          "maxItems": 10,
+          "minItems": 1,
+          "title": "Levels",
+          "type": "array"
+        }
+      },
+      "required": [
+        "levels"
+      ],
+      "title": "PrecisionStudy",
+      "type": "object"
+    },
+    "VerificationStudies": {
+      "additionalProperties": false,
+      "properties": {
+        "agreement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AgreementStudy"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "precision": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PrecisionStudy"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reportable_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LinearityStudy"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "VerificationStudies",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/validation.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "maxLength": 64,
+      "minLength": 8,
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "shift_id": {
+      "maxLength": 64,
+      "minLength": 8,
+      "title": "Shift Id",
+      "type": "string"
+    },
+    "studies": {
+      "$ref": "#/$defs/VerificationStudies"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "shift_id"
+  ],
+  "title": "ValidationCommand",
+  "type": "object"
+}

@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "PopulationAggregate": {
+      "additionalProperties": false,
+      "description": "Unlabeled population statistics used for shift detection.",
+      "properties": {
+        "categorical": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "object"
+          },
+          "maxProperties": 200,
+          "title": "Categorical",
+          "type": "object"
+        },
+        "continuous": {
+          "additionalProperties": {
+            "items": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "maxProperties": 200,
+          "title": "Continuous",
+          "type": "object"
+        },
+        "n": {
+          "minimum": 1,
+          "title": "N",
+          "type": "integer"
+        },
+        "score_counts": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Score Counts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "n",
+        "score_counts"
+      ],
+      "title": "PopulationAggregate",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/shift-analysis.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "model_id": {
+      "maxLength": 64,
+      "minLength": 3,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "population": {
+      "$ref": "#/$defs/PopulationAggregate"
+    },
+    "site_id": {
+      "maxLength": 64,
+      "minLength": 3,
+      "title": "Site Id",
+      "type": "string"
+    },
+    "version": {
+      "maxLength": 32,
+      "minLength": 5,
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "site_id",
+    "model_id",
+    "version",
+    "population"
+  ],
+  "title": "ShiftCommand",
+  "type": "object"
+}

@@ -1,0 +1,84 @@
+{
+  "$defs": {
+    "ScoreHistogram": {
+      "additionalProperties": false,
+      "properties": {
+        "negative_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negative Score Sum",
+          "type": "array"
+        },
+        "negatives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Negatives",
+          "type": "array"
+        },
+        "positive_score_sum": {
+          "items": {
+            "type": "number"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positive Score Sum",
+          "type": "array"
+        },
+        "positives": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "maxItems": 1000,
+          "minItems": 2,
+          "title": "Positives",
+          "type": "array"
+        },
+        "score_sq_sum": {
+          "minimum": 0,
+          "title": "Score Sq Sum",
+          "type": "number"
+        }
+      },
+      "required": [
+        "positives",
+        "negatives",
+        "positive_score_sum",
+        "negative_score_sum",
+        "score_sq_sum"
+      ],
+      "title": "ScoreHistogram",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/performance-aggregate.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Labeled outcome statistics for one site and one model version.",
+  "properties": {
+    "overall": {
+      "$ref": "#/$defs/ScoreHistogram"
+    },
+    "subgroups": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ScoreHistogram"
+      },
+      "description": "Keyed '<attribute>=<value>', e.g. 'sex=F'; attributes come from the model",
+      "maxProperties": 200,
+      "title": "Subgroups",
+      "type": "object"
+    }
+  },
+  "required": [
+    "overall"
+  ],
+  "title": "PerformanceAggregate",
+  "type": "object"
+}

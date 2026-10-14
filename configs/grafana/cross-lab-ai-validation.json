@@ -1,0 +1,63 @@
+{
+  "title": "Clinical Laboratory AI Assurance",
+  "uid": "cross-lab-ai-validation",
+  "schemaVersion": 39,
+  "time": {"from": "now-24h", "to": "now"},
+  "templating": {
+    "list": [
+      {"name": "datasource", "type": "datasource", "query": "prometheus"}
+    ]
+  },
+  "panels": [
+    {
+      "id": 1, "type": "stat", "title": "Request success (5m)",
+      "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {"defaults": {"unit": "percentunit", "decimals": 3}},
+      "targets": [{"expr": "1 - clv:request_errors:ratio_5m"}]
+    },
+    {
+      "id": 2, "type": "stat", "title": "Approvals withdrawn (24h)",
+      "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum(increase(clv_approvals_restricted_total[24h]))"}]
+    },
+    {
+      "id": 3, "type": "timeseries", "title": "Evaluations by kind and outcome",
+      "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum by (kind, outcome) (rate(clv_evaluations_total[15m]))", "legendFormat": "{{kind}} {{outcome}}"}]
+    },
+    {
+      "id": 4, "type": "timeseries", "title": "Shift analyses by severity",
+      "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum by (severity) (increase(clv_shift_analyses_total[1h]))", "legendFormat": "{{severity}}"}]
+    },
+    {
+      "id": 5, "type": "timeseries", "title": "Medical-director signatures",
+      "gridPos": {"x": 0, "y": 12, "w": 8, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum by (meaning) (increase(clv_reapproval_signatures_total[1d]))", "legendFormat": "{{meaning}}"}]
+    },
+    {
+      "id": 6, "type": "timeseries", "title": "MCP and A2A invocations",
+      "gridPos": {"x": 8, "y": 12, "w": 8, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum by (protocol, outcome) (rate(clv_agent_protocol_calls_total[5m]))", "legendFormat": "{{protocol}} {{outcome}}"}]
+    },
+    {
+      "id": 7, "type": "timeseries", "title": "Policy denials",
+      "gridPos": {"x": 16, "y": 12, "w": 8, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "targets": [{"expr": "sum by (code) (rate(clv_authorization_denials_total[5m]))", "legendFormat": "{{code}}"}]
+    },
+    {
+      "id": 8, "type": "timeseries", "title": "p95 latency by route",
+      "gridPos": {"x": 0, "y": 20, "w": 24, "h": 8},
+      "datasource": {"type": "prometheus", "uid": "${datasource}"},
+      "fieldConfig": {"defaults": {"unit": "s"}},
+      "targets": [{"expr": "histogram_quantile(0.95, sum by (le, route) (rate(clv_http_request_duration_seconds_bucket[5m])))", "legendFormat": "{{route}}"}]
+    }
+  ]
+}

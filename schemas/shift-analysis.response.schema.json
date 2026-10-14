@@ -1,0 +1,320 @@
+{
+  "$defs": {
+    "ChiSquareResult": {
+      "properties": {
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array"
+        },
+        "cramers_v": {
+          "title": "Cramers V",
+          "type": "number"
+        },
+        "dof": {
+          "title": "Dof",
+          "type": "integer"
+        },
+        "min_expected": {
+          "title": "Min Expected",
+          "type": "number"
+        },
+        "p_value": {
+          "title": "P Value",
+          "type": "number"
+        },
+        "statistic": {
+          "title": "Statistic",
+          "type": "number"
+        }
+      },
+      "required": [
+        "statistic",
+        "dof",
+        "p_value",
+        "cramers_v",
+        "min_expected",
+        "categories"
+      ],
+      "title": "ChiSquareResult",
+      "type": "object"
+    },
+    "FeatureShift": {
+      "properties": {
+        "chi_square": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ChiSquareResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "feature": {
+          "title": "Feature",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "continuous",
+            "categorical",
+            "score"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "ks": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/KsResult"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "psi": {
+          "title": "Psi",
+          "type": "number"
+        },
+        "severity": {
+          "enum": [
+            "none",
+            "moderate",
+            "major"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "significant": {
+          "title": "Significant",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "feature",
+        "kind",
+        "psi",
+        "severity",
+        "significant"
+      ],
+      "title": "FeatureShift",
+      "type": "object"
+    },
+    "KsResult": {
+      "properties": {
+        "n_reference": {
+          "title": "N Reference",
+          "type": "integer"
+        },
+        "n_site": {
+          "title": "N Site",
+          "type": "integer"
+        },
+        "p_value": {
+          "title": "P Value",
+          "type": "number"
+        },
+        "statistic": {
+          "title": "Statistic",
+          "type": "number"
+        }
+      },
+      "required": [
+        "statistic",
+        "p_value",
+        "n_reference",
+        "n_site"
+      ],
+      "title": "KsResult",
+      "type": "object"
+    },
+    "LabelShiftResult": {
+      "properties": {
+        "class_weights": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Class Weights",
+          "type": "array"
+        },
+        "clipped": {
+          "title": "Clipped",
+          "type": "boolean"
+        },
+        "condition_number": {
+          "title": "Condition Number",
+          "type": "number"
+        },
+        "estimated_site_prior": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Estimated Site Prior",
+          "type": "array"
+        },
+        "reference_prior": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Reference Prior",
+          "type": "array"
+        }
+      },
+      "required": [
+        "class_weights",
+        "reference_prior",
+        "estimated_site_prior",
+        "condition_number",
+        "clipped"
+      ],
+      "title": "LabelShiftResult",
+      "type": "object"
+    },
+    "ShiftReport": {
+      "properties": {
+        "aggregate_digest": {
+          "title": "Aggregate Digest",
+          "type": "string"
+        },
+        "alpha": {
+          "title": "Alpha",
+          "type": "number"
+        },
+        "bonferroni_alpha": {
+          "title": "Bonferroni Alpha",
+          "type": "number"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "created_by": {
+          "title": "Created By",
+          "type": "string"
+        },
+        "estimated_prevalence": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Estimated Prevalence"
+        },
+        "features": {
+          "items": {
+            "$ref": "#/$defs/FeatureShift"
+          },
+          "title": "Features",
+          "type": "array"
+        },
+        "findings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "kind": {
+          "const": "shift",
+          "default": "shift",
+          "title": "Kind",
+          "type": "string"
+        },
+        "label_shift": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LabelShiftResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "model_id": {
+          "title": "Model Id",
+          "type": "string"
+        },
+        "n": {
+          "title": "N",
+          "type": "integer"
+        },
+        "reference_prevalence": {
+          "title": "Reference Prevalence",
+          "type": "number"
+        },
+        "report_id": {
+          "title": "Report Id",
+          "type": "string"
+        },
+        "score": {
+          "$ref": "#/$defs/FeatureShift"
+        },
+        "severity": {
+          "enum": [
+            "none",
+            "moderate",
+            "major"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "report_id",
+        "site_id",
+        "model_id",
+        "version",
+        "created_at",
+        "created_by",
+        "aggregate_digest",
+        "n",
+        "features",
+        "score",
+        "label_shift",
+        "reference_prevalence",
+        "estimated_prevalence",
+        "alpha",
+        "bonferroni_alpha",
+        "severity",
+        "findings"
+      ],
+      "title": "ShiftReport",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/shift-analysis.response.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "approval_restricted": {
+      "title": "Approval Restricted",
+      "type": "boolean"
+    },
+    "report": {
+      "$ref": "#/$defs/ShiftReport"
+    }
+  },
+  "required": [
+    "report",
+    "approval_restricted"
+  ],
+  "title": "ShiftOutcome",
+  "type": "object"
+}

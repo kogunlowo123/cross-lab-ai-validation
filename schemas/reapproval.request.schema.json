@@ -1,0 +1,25 @@
+{
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/reapproval.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "justification": {
+      "maxLength": 2000,
+      "minLength": 10,
+      "title": "Justification",
+      "type": "string"
+    },
+    "validation_id": {
+      "maxLength": 64,
+      "minLength": 8,
+      "title": "Validation Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "validation_id",
+    "justification"
+  ],
+  "title": "ReapprovalCommand",
+  "type": "object"
+}

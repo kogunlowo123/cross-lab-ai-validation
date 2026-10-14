@@ -1,0 +1,33 @@
+{
+  "$defs": {
+    "SignatureMeaning": {
+      "enum": [
+        "approval",
+        "rejection"
+      ],
+      "title": "SignatureMeaning",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/signature.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "meaning": {
+      "$ref": "#/$defs/SignatureMeaning"
+    },
+    "statement": {
+      "description": "What the signer attests, e.g. reviewed evidence and approve clinical use",
+      "maxLength": 2000,
+      "minLength": 10,
+      "title": "Statement",
+      "type": "string"
+    }
+  },
+  "required": [
+    "meaning",
+    "statement"
+  ],
+  "title": "SignatureCommand",
+  "type": "object"
+}

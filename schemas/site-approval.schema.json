@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "ApprovalStatus": {
+      "enum": [
+        "approved",
+        "revalidation_required",
+        "rejected"
+      ],
+      "title": "ApprovalStatus",
+      "type": "string"
+    },
+    "ElectronicSignature": {
+      "description": "21 CFR 11.50 signature manifestation, linked to the signed evidence by digest.",
+      "properties": {
+        "authenticated_at": {
+          "format": "date-time",
+          "title": "Authenticated At",
+          "type": "string"
+        },
+        "evidence_digest": {
+          "title": "Evidence Digest",
+          "type": "string"
+        },
+        "meaning": {
+          "$ref": "#/$defs/SignatureMeaning"
+        },
+        "printed_name": {
+          "title": "Printed Name",
+          "type": "string"
+        },
+        "signed_at": {
+          "format": "date-time",
+          "title": "Signed At",
+          "type": "string"
+        },
+        "signer": {
+          "title": "Signer",
+          "type": "string"
+        },
+        "statement": {
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "signer",
+        "printed_name",
+        "meaning",
+        "signed_at",
+        "evidence_digest",
+        "statement",
+        "authenticated_at"
+      ],
+      "title": "ElectronicSignature",
+      "type": "object"
+    },
+    "SignatureMeaning": {
+      "enum": [
+        "approval",
+        "rejection"
+      ],
+      "title": "SignatureMeaning",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/kogunlowo123/cross-lab-ai-validation/schemas/site-approval.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Whether a model version may be used clinically at a site.",
+  "properties": {
+    "approved_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Approved At"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "model_id": {
+      "title": "Model Id",
+      "type": "string"
+    },
+    "reapproval_id": {
+      "title": "Reapproval Id",
+      "type": "string"
+    },
+    "signature": {
+      "$ref": "#/$defs/ElectronicSignature"
+    },
+    "site_id": {
+      "title": "Site Id",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ApprovalStatus"
+    },
+    "status_reason": {
+      "title": "Status Reason",
+      "type": "string"
+    },
+    "updated_at": {
+      "format": "date-time",
+      "title": "Updated At",
+      "type": "string"
+    },
+    "validation_id": {
+      "title": "Validation Id",
+      "type": "string"
+    },
+    "version": {
+      "title": "Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "site_id",
+    "model_id",
+    "version",
+    "status",
+    "validation_id",
+    "reapproval_id",
+    "signature",
+    "updated_at",
+    "status_reason"
+  ],
+  "title": "SiteApproval",
+  "type": "object"
+}
